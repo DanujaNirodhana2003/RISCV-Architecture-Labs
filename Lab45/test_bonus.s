@@ -1,0 +1,18 @@
+loadi 1 0x05
+loadi 2 0x05
+bne 0x01 1 2
+sll 3 1 0x01
+sll 3 3 0x02
+loadi 4 0x28
+bne 0x01 3 4
+loadi 5 0x01
+bne 0x01 3 5
+loadi 5 0x0A
+loadi 5 0x0B
+
+
+3----101000
+2----101
+
+4----101000
+5----000001

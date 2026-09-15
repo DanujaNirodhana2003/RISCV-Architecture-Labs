@@ -1,0 +1,125 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage[a4paper,margin=0.8in]{geometry}
+\usepackage{changepage}
+\usepackage{float}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+\titleformat{\section}
+  {\bfseries}
+  {\thesection.}{0.5em}{}
+
+\titleformat{\subsection}
+  {\large\bfseries}
+  {\thesubsection}{1em}{}
+
+
+\title{Computer Architecture Lab 04}
+\author{K.D.N.Chandrasena}
+\date{\today}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Department of Computer Engineering}}\\
+\vspace{0.2cm}
+{\large University of Peradeniya}\\
+\vspace{0.6cm}
+
+{\large CO2070 -- COMPUTER ARCHITECTURE}\\
+\vspace{0.3cm}
+{\Large \textbf{LAB 04 REPORT}}\\
+\vspace{0.2cm}
+
+\end{center}
+{\large
+\textbf{Team Number:} No. 15\\[0.3cm]
+\textbf{Name:} K.D.N.Chandrasena , Tharuka Cooray\\[0.3cm]
+\textbf{Registration Number:} E/22/054 , E/2//058\\[0.3cm]
+\textbf{Date:} \today
+}
+
+\vspace{1cm}
+
+% ============================================================
+% SECTION 1
+% ============================================================
+\section*{Lab 04: Flow Control Instructions}
+
+In this lab, the processor datapath and control unit were upgraded to support flow control instructions, breaking the sequential execution of code. The two implemented instructions were the unconditional Jump (\texttt{j}) and the Branch If Equal (\texttt{beq}).
+
+\subsection*{1. ALU Zero Flag Modification}
+To support conditional branching, the ALU was modified to output a 1-bit \texttt{ZERO} flag. During the execution of a \texttt{beq} instruction, the control unit forces the datapath to subtract the two source registers. The \texttt{ZERO} flag continuously monitors the output.
+
+\begin{lstlisting}[language=Verilog, caption=ALU Zero Flag Logic]
+// If the ALU result is exactly zero, output 1
+assign ZERO = (RESULT == 8'b00000000) ? 1'b1 : 1'b0;
+\end{lstlisting}
+
+\subsection*{2. Branch/Jump Target Adder}
+A dedicated hardware adder was integrated into the datapath to calculate target addresses. The jump offset specifies the distance in instructions. The hardware shifts this offset left by 2 bits to convert it to a byte distance and adds it to the \texttt{PC+4} value.
+
+\begin{lstlisting}[language=Verilog, caption=Target Address Adder]
+// Base address calculation
+assign #1 pc_next = PC + 32'h4;
+
+// Target calculation: Shift offset (bits 23:16) left by 2 and sign-extend
+assign #2 pc_target = pc_next + {{22{INSTRUCTION[23]}}, INSTRUCTION[23:16], 2'b00};
+\end{lstlisting}
+
+\subsection*{3. Program Counter Multiplexer}
+A multiplexer was added before the Program Counter register. This MUX evaluates the control signals from the Control Unit and the \texttt{ZERO} flag from the ALU to determine the next execution address.
+
+\begin{lstlisting}[language=Verilog, caption=PC Source Multiplexer]
+// Select target address if Jump OR (Branch AND Zero)
+assign pc_next_final = (jump | (branch & zero)) ? pc_target : pc_next;
+\end{lstlisting}
+
+\subsection*{4. Control Unit Decoding}
+The Control Unit was updated to decode the opcodes for \texttt{j} and \texttt{beq}, routing the appropriate electrical signals into the datapath to trigger the multiplexers and ALU modes.
+
+\begin{lstlisting}[language=Verilog, caption=Control Unit Opcode Decoding]
+case (opcode)
+    8'h06: begin                // j instruction
+        JUMP = 1;
+    end
+    8'h07: begin                // beq instruction
+        BRANCH = 1;             
+        ALUOP = 3'b001;         // Set ALU to Addition
+        Op2Select = 2'b01;      // Select negated OUT2 for subtraction
+    end
+endcase
+\end{lstlisting}
+
+\end{document}

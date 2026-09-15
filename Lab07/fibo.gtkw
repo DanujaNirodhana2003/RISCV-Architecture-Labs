@@ -1,0 +1,141 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Thu Jul 30 03:48:19 2026
+[*]
+[dumpfile] "D:\Academic\Semester 04\CO2070_Computer_Architecture\Lab07\cpu_wavedata.vcd"
+[dumpfile_mtime] "Wed Jul 29 20:00:57 2026"
+[dumpfile_size] 110478
+[savefile] "D:\Academic\Semester 04\CO2070_Computer_Architecture\Lab07\fibo.gtkw"
+[timestart] 2833000
+[size] 1920 995
+[pos] -10 -10
+*-18.000000 3770000 668000 676000 684000 692000 700000 1356000 1364000 1372000 1556000 2220000 2228000 2236000 2244000 2907990 2916000 2924000 2932000 2940000 2948010 2956000 2964000 2972000 2980000 2988000 2996000 3004000
+[markername] Aloadi 0 0 
+[markername] Bloadi 1 0
+[markername] Cloadi 2 1
+[markername] Dloadi 4 0
+[markername] Eagain miss
+[markername] Floadi 5 10
+[markername] Gloadi 6 1
+[markername] Hswd 1 4
+[markername] Iadd 3 1 2
+[markername] Jmov 1 2 
+[markername] Kmov 2 3 
+[markername] Ladd 4 4 6
+[markername] Msub 5 5 6
+[markername] Nbeq 0x01 5 0
+[markername] Oj 0xF8
+[markername] Pswd 1 4
+[markername] Qadd 3 1 2
+[markername] Rmov 1 2
+[markername] Smov 2 3
+[markername] Tadd 4 4 6
+[markername] Usub 5 5 6
+[markername] Vbeq 0x01 5 0
+[markername] Wj 0xF8
+[markername] Xswd 1 4
+[markername] Yadd 3 1 2
+[markername] Zmov 1 2
+[treeopen] cpu_tb.
+[treeopen] cpu_tb.mycpu.
+[sst_width] 230
+[signals_width] 340
+[sst_expanded] 1
+[sst_vpaned_height] 288
+@24
+cpu_tb.mycpu.rf_inst.CLK
+@c00028
+cpu_tb.INSTRUCTION[31:0]
+@28
+(0)cpu_tb.INSTRUCTION[31:0]
+(1)cpu_tb.INSTRUCTION[31:0]
+(2)cpu_tb.INSTRUCTION[31:0]
+(3)cpu_tb.INSTRUCTION[31:0]
+(4)cpu_tb.INSTRUCTION[31:0]
+(5)cpu_tb.INSTRUCTION[31:0]
+(6)cpu_tb.INSTRUCTION[31:0]
+(7)cpu_tb.INSTRUCTION[31:0]
+(8)cpu_tb.INSTRUCTION[31:0]
+(9)cpu_tb.INSTRUCTION[31:0]
+(10)cpu_tb.INSTRUCTION[31:0]
+(11)cpu_tb.INSTRUCTION[31:0]
+(12)cpu_tb.INSTRUCTION[31:0]
+(13)cpu_tb.INSTRUCTION[31:0]
+(14)cpu_tb.INSTRUCTION[31:0]
+(15)cpu_tb.INSTRUCTION[31:0]
+(16)cpu_tb.INSTRUCTION[31:0]
+(17)cpu_tb.INSTRUCTION[31:0]
+(18)cpu_tb.INSTRUCTION[31:0]
+(19)cpu_tb.INSTRUCTION[31:0]
+(20)cpu_tb.INSTRUCTION[31:0]
+(21)cpu_tb.INSTRUCTION[31:0]
+(22)cpu_tb.INSTRUCTION[31:0]
+(23)cpu_tb.INSTRUCTION[31:0]
+(24)cpu_tb.INSTRUCTION[31:0]
+(25)cpu_tb.INSTRUCTION[31:0]
+(26)cpu_tb.INSTRUCTION[31:0]
+(27)cpu_tb.INSTRUCTION[31:0]
+(28)cpu_tb.INSTRUCTION[31:0]
+(29)cpu_tb.INSTRUCTION[31:0]
+(30)cpu_tb.INSTRUCTION[31:0]
+(31)cpu_tb.INSTRUCTION[31:0]
+@1401200
+-group_end
+@200
+-
+@28
+cpu_tb.RESET
+@200
+-
+-icache eke miss wel
+@28
+cpu_tb.inst_busywait
+cpu_tb.inst_mem_busywait
+@200
+-
+-Dcache ek miss wela
+@28
+cpu_tb.mycpu.BUSYWAIT
+@200
+-
+-
+-reg file eken gaththa registers
+@24
+cpu_tb.mycpu.rf_inst.r0[7:0]
+@200
+-
+-F_0
+@25
+cpu_tb.mycpu.rf_inst.r1[7:0]
+@200
+-
+-F_1
+@c00024
+cpu_tb.mycpu.rf_inst.r2[7:0]
+@28
+(0)cpu_tb.mycpu.rf_inst.r2[7:0]
+(1)cpu_tb.mycpu.rf_inst.r2[7:0]
+(2)cpu_tb.mycpu.rf_inst.r2[7:0]
+(3)cpu_tb.mycpu.rf_inst.r2[7:0]
+(4)cpu_tb.mycpu.rf_inst.r2[7:0]
+(5)cpu_tb.mycpu.rf_inst.r2[7:0]
+(6)cpu_tb.mycpu.rf_inst.r2[7:0]
+(7)cpu_tb.mycpu.rf_inst.r2[7:0]
+@1401200
+-group_end
+@200
+-
+-Fibo = F_0 + F_1
+@24
+cpu_tb.mycpu.rf_inst.r3[7:0]
+@200
+-
+@22
+cpu_tb.mycpu.rf_inst.r4[7:0]
+@200
+-
+-Loop counter
+@22
+cpu_tb.mycpu.rf_inst.r5[7:0]
+[pattern_trace] 1
+[pattern_trace] 0

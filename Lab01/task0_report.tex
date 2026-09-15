@@ -1,0 +1,71 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage[a4paper,margin=0.8in]{geometry}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\titleformat{\section}
+  {\large\bfseries}
+  {\thesection.}{0.5em}{}
+
+\title{Lab 01: RISC-V Assembly and Architecture}
+\author{K.D.N. Chandrasena}
+\date{\today}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Department of Computer Engineering}}\\
+\vspace{0.2cm}
+{\large University of Peradeniya}\\
+\vspace{0.6cm}
+
+{\large CO2070 -- COMPUTER ARCHITECTURE}\\
+\vspace{0.3cm}
+{\Large \textbf{LAB 01 REPORT}}\\
+\vspace{0.2cm}
+\end{center}
+
+{\large
+\textbf{Names:} Danuja Nirodhana (E/22/054), Tharuka Cooray (E/22/058)\\[0.3cm]
+\textbf{Date:} \today
+}
+
+\vspace{1cm}
+
+\section*{Task 0: Comparison between RISC-V and ARM Architectures}
+
+The following table summarizes the key architectural differences between RISC-V and the ARM architecture .
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|p{3cm}|p{6cm}|p{6cm}|}
+        \hline
+        \textbf{Feature} & \textbf{RISC-V} & \textbf{ARM} \\ \hline
+        \textbf{Licensing} & Open-source and royalty-free. Anyone can design chips. & Proprietary; requires expensive licensing and royalties from ARM Ltd. \\ \hline
+        \textbf{Philosophy} & Modular; starts with a small base (RV32I) and adds extensions (M, A, F, D). & Incremental; features are added in newer versions, often leading to a larger ISA. \\ \hline
+        \textbf{Registers} & 32 general-purpose registers (\texttt{x0}-\texttt{x31}). \texttt{x0} is hardwired to zero. & 16 registers in ARMv7 (\texttt{R0}-\texttt{R15}), 31 in ARMv8. \texttt{PC} is often a general register. \\ \hline
+        \textbf{Condition Codes} & Does \textbf{not} use condition flags (Z, N, C, V). Comparisons are done directly in branches. & Uses condition code flags (NZCV) in a Status Register for branching. \\ \hline
+        \textbf{Instruction Formats} & Fixed 32-bit length with very regular layouts to simplify decoding. & Historically variable (Thumb/ARM) or fixed 32-bit (A64). More complex decoding. \\ \hline
+        \textbf{Addressing Modes} & Very simple: primarily Base + Offset. & Complex: includes pre-increment, post-increment, and scaled indexing. \\ \hline
+    \end{tabular}
+    \caption{Key differences between RISC-V and ARM Architectures}
+\end{table}
+
+\subsection*{Key Insights}
+\begin{itemize}
+    \item \textbf{Simplified Branching Logic:} RISC-V eliminates the traditional condition code flags (Zero, Carry, Negative, Overflow) found in ARM. Instructions like \texttt{beq rs1, rs2, label} perform the comparison and the branch in a single step. In ARM, a comparison instruction (like \texttt{CMP}) must first update the Status Register, and then a subsequent branch instruction must read those flags. This creates a data dependency that can lead to "pipeline stalls" or "bubbles." By combining comparison and branching, RISC-V reduces the number of instructions executed and simplifies the bypass logic in the hardware pipeline, leading to more efficient execution and a smaller hardware footprint.
+    \item \textbf{Load/Store Architecture:} While both ARM and RISC-V are Load/Store architectures, ARM includes complex instructions like \texttt{LDM} (Load Multiple) which can load many registers in a single cycle. RISC-V favors simplicity, using only individual \texttt{lw} and \texttt{sw} instructions, which ensures a more consistent instruction execution time.
+    \item \textbf{Hardwired Zero Register (\texttt{x0}):} The inclusion of \texttt{x0} is a hallmark of RISC-V design. It allows the instruction set to be more compact; for example, the \texttt{mv} instruction is not a unique opcode but simply an alias for \texttt{addi rd, rs, 0}. This reduces the complexity of the hardware decoder.
+    \item \textbf{Modular Extension System:} Unlike ARM's monolithic design, RISC-V is modular. A basic implementation only requires the "I" (Integer) set. Specific features like Multiplication (M), Atomic instructions (A), or Floating-point (F) are added as optional extensions. This allows for specialized, low-power chips tailored for specific tasks.
+    \item \textbf{Instruction Layout Consistency:} RISC-V is designed so that the source (\texttt{rs1, rs2}) and destination (\texttt{rd}) registers are always in the same bit positions across all instruction formats. This allows the processor to begin reading the register values from the register file even before the instruction is fully decoded, significantly boosting performance.
+\end{itemize}
+
+
+\end{document}

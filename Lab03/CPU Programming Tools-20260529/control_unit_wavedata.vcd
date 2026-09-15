@@ -1,0 +1,81 @@
+$date
+	Tue Jun 09 08:29:34 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module control_unit_tb $end
+$var wire 1 ! RegWrite $end
+$var wire 2 " Op2Select [1:0] $end
+$var wire 3 # ALUOP [2:0] $end
+$var reg 8 $ opcode [7:0] $end
+$scope module uut $end
+$var wire 8 % opcode [7:0] $end
+$var reg 3 & ALUOP [2:0] $end
+$var reg 2 ' Op2Select [1:0] $end
+$var reg 1 ! RegWrite $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+bx '
+bx &
+b0 %
+b0 $
+bx #
+bx "
+x!
+$end
+#1000
+b10 "
+b10 '
+b0 #
+b0 &
+1!
+#2000
+b1 $
+b1 %
+#3000
+b0 "
+b0 '
+1!
+#4000
+b10 $
+b10 %
+#5000
+b1 #
+b1 &
+1!
+#6000
+b11 $
+b11 %
+#7000
+b1 "
+b1 '
+b1 #
+b1 &
+1!
+#8000
+b100 $
+b100 %
+#9000
+b0 "
+b0 '
+b10 #
+b10 &
+1!
+#10000
+b101 $
+b101 %
+#11000
+b11 #
+b11 &
+1!
+#12000

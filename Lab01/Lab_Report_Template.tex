@@ -1,0 +1,224 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage[a4paper,margin=0.8in]{geometry}
+\usepackage{changepage}  % for adjustwidth
+\usepackage{float}
+\usepackage{caption}     % Required for subcaption
+\usepackage{subcaption}  % For subfigures
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{titlesec}
+
+\titleformat{\section}
+  {\bfseries}
+  {\thesection.}{0.5em}{}
+
+\titleformat{\subsection}
+  {\large\bfseries}
+  {\thesubsection}{1em}{}
+
+
+\title{Database Systems Lab 02}
+\author{K.D.N.Chandrasena}
+\date{\today}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Department of Computer Engineering}}\\
+\vspace{0.2cm}
+{\large University of Peradeniya}\\
+\vspace{0.6cm}
+
+{\large CO2050 -- DATABASE SYSTEMS}\\
+\vspace{0.3cm}
+{\Large \textbf{LAB 02}}\\
+\vspace{0.2cm}
+
+
+\end{center}
+{\large
+\textbf{Name:} K.D.N.Chandrasena\\[0.3cm]
+\textbf{Registration Number:} E/22/054\\[0.3cm]
+\textbf{Date:} \today
+}
+
+
+
+% ============================================================
+% SECTION 1
+% ============================================================
+\section*{Pre-Lab Questions}
+
+\textbf{1. What is an entity in ER modeling?}
+
+An entity is a real-world object or concept that exists independently and about which data is collected and stored in a database. For example, in a university database, a 'Student' or a 'Course' would be considered entities.
+
+\vspace{0.5cm}
+
+\textbf{2. What is the difference between an entity and an attribute?}
+
+An entity is the main object or concept being tracked in the database, whereas an attribute is a property, trait, or characteristic that describes that entity. For example, 'Student' is an entity, and 'Name' or 'Age' are attributes of that student.
+
+\vspace{0.5cm}
+
+\textbf{3. What is a relationship in a database context?}
+
+A relationship is an association or connection between two or more entities. It describes how entities interact with each other. For example, a Student 'enrolls' in a Course; 'enrolls' is the relationship.
+
+\vspace{0.5cm}
+
+\textbf{4. What is cardinality? Give one example.}
+
+Cardinality defines the maximum number of times an instance of one entity can be associated with instances of another entity in a relationship. It specifies numerical constraints on relationships.
+\newline\textit{Example:} A 1:N (One-to-Many) relationship where one Department can have many Instructors, but each Instructor belongs to exactly one Department.
+
+\vspace{0.5cm}
+
+\textbf{5. What is the difference between specialisation and generalisation?}
+
+\begin{itemize}
+    \item \textbf{Specialisation:} A top-down approach where a higher-level entity is divided into lower-level sub-entities based on distinguishing characteristics (e.g., Person specialized into Student and Instructor).
+    \item \textbf{Generalisation:} A bottom-up approach where multiple lower-level entities are combined into a single higher-level entity based on common features (e.g., Car and Truck generalized into Vehicle).
+\end{itemize}
+
+% ============================================================
+% SECTION 2
+% ============================================================
+\section*{Task 1: Understanding the Case Study}
+
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|l|p{4cm}|p{6cm}|}
+        \hline
+        \textbf{Entity} & \textbf{Attributes} & \textbf{Relationships} \\ \hline
+        Student & Student\_ID, Name, Last\_Name, First\_Name, Age & Many to many with courses - Registers \\ \hline
+        Course & Course\_name, Course\_Code, Credit\_value & 1 to many with departments - Offers, 1 to many with instructors - Teaches, Many to many with students - Registers \\ \hline
+        Instructor & Name, Instructor\_ID & 1 to Many with departments - Belongs\_To, 1 to 1 with courses - Teaches \\ \hline
+        Department & Dept\_Name, Dept\_ID & 1 to many with instructors - Belongs\_To, 1 to many with courses - Offers \\ \hline
+        Classroom & Class\_ID, Capacity & 1 to many with courses - Hosts \\ \hline
+    \end{tabular}
+    \caption{Core Components of University Course Registration System}
+\end{table}
+
+\vspace{1cm}
+
+% ============================================================
+% SECTION 3
+% ============================================================
+
+\section*{Task 2: ER Diagram Design}
+
+
+\begin{figure}[H]
+    \centering
+    % Placeholder for the ER diagram image
+    \includegraphics[width=0.8\textwidth]{task2_er_diagram.png}
+    \caption{ER-diagram for University Course Registration System}
+\end{figure}
+
+\vspace{1cm}
+
+% ============================================================
+% SECTION 4
+% ============================================================
+
+\section*{Task 3: EER Extension}
+
+
+
+\begin{figure}[H]
+    \centering
+    % Placeholder for the EER diagram image
+    \includegraphics[width=0.7\textwidth]{task3_eer_diagram.png}
+    \caption{EER Extension representing Person, Student, and Instructor}
+\end{figure}
+
+
+\vspace{1cm}
+
+% ============================================================
+% SECTION 5
+% ============================================================
+\section*{Task 4: Online Food Delivery System}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|l|p{4cm}|p{6cm}|}
+        \hline
+        \textbf{Entity} & \textbf{Attributes} & \textbf{Relationships} \\ \hline
+        Customer & customer\_id (PK), name, phone\_numbers (Multi-valued) & 1 to N with Order - Places, 1 to N with Address - Has \\ \hline
+        Order & order\_id (PK), date, total\_amount, delivery\_status & N to 1 with Customer - Placed by, M to N with MenuItem - Contains, N to 1 with Driver - Delivered by \\ \hline
+        Restaurant & rest\_id (PK), name, location & 1 to N with MenuItem - Offers \\ \hline
+        MenuItem & item\_id (PK), name, price & N to 1 with Restaurant - Offered by, M to N with Order - Contains \\ \hline
+        Driver & driver\_id (PK), name, vehicle\_number & 1 to N with Order - Delivers \\ \hline
+        Address (Weak) & address\_id (Partial PK), street, city & N to 1 with Customer - Belongs to \\ \hline
+    \end{tabular}
+    \caption{Core Components of Online Food Delivery System}
+\end{table}
+
+\vspace{1cm}
+
+\begin{figure}[H]
+    \centering
+    % Placeholder for the Food Delivery ER diagram image
+    \includegraphics[width=0.9\textwidth]{task4_food_er_diagram.png}
+    \caption{ER-diagram for Online Food Delivery System}
+\end{figure}
+
+\vspace{1cm}
+
+
+% ============================================================
+% SECTION 6
+% ============================================================
+\section*{Task 5: Conceptual Validation}
+
+\textbf{1. Why is ER modeling important before database implementation?}
+
+ER modeling provides a clear, high-level blueprint of the data requirements and relationships, ensuring all stakeholders (developers, clients) understand the data structure before writing any code. It helps identify missing entities, redundant data, and logical flaws early in the design phase, which saves time and resources later.
+
+\vspace{0.5cm}
+
+\textbf{2. What problems occur if relationships are modeled incorrectly?}
+
+Incorrect relationships can lead to severe database anomalies. This includes data redundancy (repeating information unnecessarily), insertion/deletion/update anomalies, loss of data integrity, and complex or impossible queries. Ultimately, it makes the database inefficient and unreliable for the application.
+
+\vspace{0.5cm}
+
+\textbf{3. Why are weak entities necessary in some systems?}
+
+Weak entities are necessary to model items that cannot exist independently and are entirely dependent on a strong entity for their existence and identification. For example, a 'Dependent' in an employee database cannot exist without an 'Employee'. They help represent strict ownership and hierarchical structures logically.
+
+
+\vspace{1cm}
+% ============================================================
+% SECTION 7
+% ============================================================
+\section*{Task 6: Advanced Thinking (Optional: Bonus)}
+
+\textbf{1. Identify one M:N relationship and explain how it would be converted into relational tables.}
+
+\textbf{Relationship:} "Student Registers for Course" (M:N). \\
+\textbf{Conversion:} To convert an M:N relationship into a relational schema, a new "junction" or "associative" table must be created. 
+\begin{itemize}
+    \item Table 1: \texttt{Student(student\_id, name, ...)}
+    \item Table 2: \texttt{Course(course\_id, title, ...)}
+    \item Table 3: \texttt{Registration(student\_id, course\_id, grade)}
+\end{itemize}
+The junction table \texttt{Registration} will contain the primary keys of both entities (\texttt{student\_id} and \texttt{course\_id}) as foreign keys. Together, these foreign keys form the composite primary key for the new table. Any attributes of the relationship (like \texttt{grade}) will also belong to this new table.
+
+\vspace{0.5cm}
+
+\textbf{2. Explain how your ER model would change if: A course can be taught by multiple instructors.}
+
+Currently, the relationship between \texttt{Instructor} and \texttt{Course} is 1:N (Teaches), assuming an instructor can teach multiple courses but a course has only one instructor.
+If a course can be taught by multiple instructors, the relationship changes from 1:N to \textbf{M:N (Many-to-Many)}. 
+In the ER diagram, the cardinality on the Instructor side of the 'Teaches' relationship diamond will change from '1' to 'M' (or 'N'). In the physical database implementation, this means we can no longer just put an \texttt{instructor\_id} as a foreign key in the \texttt{Course} table. Instead, we would need to create a new junction table (e.g., \texttt{Course\_Instructor}) to link \texttt{instructor\_id} and \texttt{course\_id}.
+
+\end{document}

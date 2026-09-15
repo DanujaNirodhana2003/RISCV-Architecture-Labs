@@ -1,0 +1,81 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Sun Jul 05 19:33:49 2026
+[*]
+[dumpfile] "D:\Academic\Semester 04\CO2070_Computer_Architecture\Lab05\cpu_wavedata.vcd"
+[dumpfile_mtime] "Thu Jul 02 04:04:09 2026"
+[dumpfile_size] 14109
+[savefile] "D:\Academic\Semester 04\CO2070_Computer_Architecture\Lab05\Lab05final.gtkw"
+[timestart] 220520
+[size] 1920 995
+[pos] -2050 -130
+*-12.000000 175980 12000 20000 68000 116000 172000 124000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[markername] Aloadi 2 0xAA
+[markername] Bswi 2 0x05
+[markername] Clwi 3 0x05
+[markername] Dloadi 4 0x0A
+[markername] Elwd 5 4
+[markername] Fswd 3 4l
+[treeopen] cpu_tb.
+[sst_width] 230
+[signals_width] 342
+[sst_expanded] 1
+[sst_vpaned_height] 288
+@28
+cpu_tb.mycpu.CLK
+@200
+-PC Update 
+@24
+cpu_tb.mycpu.PC[31:0]
+@200
+-
+-Instruction Memory Read 
+@28
+cpu_tb.mycpu.INSTRUCTION[31:0]
+[color] 2
+cpu_tb.mycpu.BUSYWAIT
+@200
+-
+@22
+[color] 2
+cpu_tb.mycpu.alu_in2[7:0]
+@28
+[color] 4
+cpu_tb.mycpu.ADDRESS[7:0]
+@200
+-
+-PC + 4 Adder
+@24
+cpu_tb.mycpu.pc_next[31:0]
+@200
+-
+-Decoding
+@28
+cpu_tb.mycpu.reg_write
+@c00028
+cpu_tb.mycpu.alu_op[2:0]
+@28
+(0)cpu_tb.mycpu.alu_op[2:0]
+(1)cpu_tb.mycpu.alu_op[2:0]
+(2)cpu_tb.mycpu.alu_op[2:0]
+@1401208
+-group_end
+@200
+-
+-Register Read
+@28
+cpu_tb.mycpu.out1[7:0]
+cpu_tb.mycpu.out2[7:0]
+@200
+-
+@28
+cpu_tb.mycpu.alu_result[7:0]
+@200
+-
+@201
+- Data Memory Access
+@28
+cpu_tb.mycpu.READ
+cpu_tb.mycpu.WRITE
+[pattern_trace] 1
+[pattern_trace] 0

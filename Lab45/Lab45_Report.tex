@@ -1,0 +1,127 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage[a4paper,margin=0.8in]{geometry}
+\usepackage{changepage}
+\usepackage{float}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+\titleformat{\section}
+  {\bfseries}
+  {\thesection.}{0.5em}{}
+
+\titleformat{\subsection}
+  {\large\bfseries}
+  {\thesubsection}{1em}{}
+
+
+\title{Computer Architecture Lab 4.5}
+\author{K.D.N.Chandrasena}
+\date{\today}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Department of Computer Engineering}}\\
+\vspace{0.2cm}
+{\large University of Peradeniya}\\
+\vspace{0.6cm}
+
+{\large CO2070 -- COMPUTER ARCHITECTURE}\\
+\vspace{0.3cm}
+{\Large \textbf{LAB 4.5 REPORT}}\\
+\vspace{0.2cm}
+
+\end{center}
+{\large
+\textbf{Names:} K.D.N.Chandrasena , Tharuka Cooray\\[0.3cm]
+\textbf{Registration Number:} E/22/054 , E/22/058\\[0.3cm]
+\textbf{Date:} \today
+}
+
+\vspace{1cm}
+
+% ============================================================
+% SECTION 1
+% ============================================================
+\section*{Lab 4.5: Extended ISA Implementation (Bonus)}
+
+Lab 4.5 introduced advanced hardware modifications to implement two additional custom instructions to the processor architecture: \texttt{sll} (Logical Shift Left) and \texttt{bne} (Branch if Not Equal).
+
+\subsection*{1. Combinational Barrel Shifter (\texttt{sll})}
+To support bitwise logical left shifting without utilizing the standard Verilog shift operator (\texttt{<<}), a custom hardware \textbf{Barrel Shifter} was constructed. This logic uses multiplexers to physically route and slice data wires based on powers of two, shifting data instantly.
+
+\begin{lstlisting}[language=Verilog, caption=Barrel Shifter Implementation]
+module shift_left_unit (A, SHIFT, OUT);
+    input [7:0] A, SHIFT;
+    output [7:0] OUT;
+    wire [7:0] s0, s1, s2;
+    
+    // stage 0: shift by 1 if bit 0 is set
+    assign s0 = SHIFT[0] ? {A[6:0], 1'b0} : A;
+    // stage 1: shift by 2 if bit 1 is set
+    assign s1 = SHIFT[1] ? {s0[5:0], 2'b00} : s0;
+    // stage 2: shift by 4 if bit 2 is set
+    assign s2 = SHIFT[2] ? {s1[3:0], 4'b0000} : s1;
+    // Safety check: outputs zero if shift > 7
+    assign #1 OUT = (SHIFT[7:3] != 5'b00000) ? 8'b00000000 : s2;
+endmodule
+\end{lstlisting}
+
+\subsection*{2. Branch If Not Equal (\texttt{bne})}
+To complement the \texttt{beq} instruction, the \texttt{bne} instruction evaluates the inverted \texttt{ZERO} flag. The datapath's PC Multiplexer logic was modified to accommodate the new \texttt{bne\_branch} signal.
+
+\begin{lstlisting}[language=Verilog, caption=Modified PC Multiplexer Logic]
+// Select target address if BNE is active and ZERO is false
+assign pc_next_final = (jump | (branch & zero) | (bne_branch & ~zero)) ? pc_target : pc_next;
+\end{lstlisting}
+
+\subsection*{3. Control Unit Decoding}
+The Control Unit was updated to map \texttt{ALUOP = 3'b100} to the new shifting module and trigger the correct datapath configurations for \texttt{bne}.
+
+\begin{lstlisting}[language=Verilog, caption=Control Unit Additions]
+case (opcode)
+    8'h0C: begin                // bne instruction
+        BNE_BRANCH = 1;         
+        ALUOP = 3'b001;         // Subtraction mode
+        Op2Select = 2'b01;      // Negated OUT2
+    end
+    8'h0D: begin                // sll instruction
+        RegWrite = 1;           
+        ALUOP = 3'b100;         // Trigger barrel shifter
+        Op2Select = 2'b10;      // Route immediate to ALU
+    end
+endcase
+\end{lstlisting}
+
+\end{document}
