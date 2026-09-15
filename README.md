@@ -1,5 +1,5 @@
 # CO2070 Computer Architecture Labs
-This repository contains the laboratory exercises and implementations for the **CO224: Computer Architecture** module. The labs primarily focus on understanding processor architecture, data paths, control units, and memory hierarchy using **RISC-V** assembly and **Verilog HDL**.
+This repository contains the laboratory exercises and implementations for the **CO2070: Computer Architecture** module. The labs primarily focus on understanding processor architecture, data paths, control units, and memory hierarchy using **RISC-V** assembly and **Verilog HDL**.
 
 ## Directory Structure
 * **Lab01:** Introduction to RISC-V assembly and Ripes simulator.
